@@ -7,6 +7,11 @@ class Hash_Table:
         return key % self.N
 
     def set(self, key, value):
+        present = self.search(key)
+        if present != -1:
+            collec = self.H[present[0]]
+            collec[present[1]] = (key, value)
+            return 0
         i = self.hash(key)
         if self.H[i] is None:
             self.H[i] = [(key, value)]
@@ -63,6 +68,7 @@ def main():
     hash_obj.print_state()
     hash_obj.set(4, 30)
     hash_obj.set(12, 30)
+    hash_obj.set(4, 12)
     hash_obj.print_state()
 
 
