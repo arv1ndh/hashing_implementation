@@ -16,7 +16,7 @@ class Hash_Table:
             if count == self.n:
                 print("Key not Found")
                 return -1
-            index = (init_hash + i) % self.N
+            index = (init_hash + i*i) % self.N
             i = i + 1
             if type(self.H[index]) == int:
                 count += 1
@@ -34,7 +34,7 @@ class Hash_Table:
         i = 1
         index = init_hash
         while self.H[index] is not None and type(self.H[index] == int) and self.H[index][0] != key:
-            index = (init_hash + i) % self.N
+            index = (init_hash + i*i) % self.N
             i = i + 1
         self.H[index] = [key, value]
         self.n += 1
