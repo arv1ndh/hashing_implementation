@@ -23,11 +23,9 @@ class Hash_Table:
         index = self.hash(key)
         collec = self.H[index]
         if collec is None:
-            print("Key Not found")
             return -1
         for i in range(len(collec)):
             if collec[i][0] == key:
-                print("Key found")
                 return (index, i)
         return -1
 
@@ -51,7 +49,7 @@ class Hash_Table:
                 print(o_str)
                 continue
             for k,v in collec:
-                o_str += "{}-{}==>".format(k,v)
+                o_str += "==>{}:{}".format(k,v)
             print(o_str)
 
 def main():
