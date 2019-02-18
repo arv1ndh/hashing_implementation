@@ -19,9 +19,11 @@ class Hash_Table:
     def set(self, key, value):
         hashes = self.hash(key)
         i = 0
-        count = 0
+        count = -1
+        o_key = key
+        o_value = value
         while key is not None and value is not None:
-            if count >= self.N:
+            if count == 3:
                 return -1
             if self.H[i][hashes[i]] is None:
                 self.H[i][hashes[i]] = [key, value]
@@ -30,8 +32,9 @@ class Hash_Table:
             else:
                 key,self.H[i][hashes[i]][0] = self.H[i][hashes[i]][0], key
                 value,self.H[i][hashes[i]][1] = self.H[i][hashes[i]][1], value
+            if key == o_key and value == o_value:
+                count += 1
             i = 1 - i
-            count += 1
         return 0
 
     def delete(self, key):

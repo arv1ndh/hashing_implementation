@@ -8,11 +8,10 @@ import time
 HASH_TYPE = ["cuckoo_hashing", "chained_hashing", "linear_hashing", "quadratic_hashing"]
 ACTION = ["set", "search", "delete"]
 
-def generate_random_keys(size):
+def generate_random_keys(size, load_factor):
     result_list = []
     i = 0
-    while i < size:
-        #print(i)
+    while i < size * load_factor:
         number = random.randint(0, size * 100)
         if number not in result_list:
             result_list.append(number)
@@ -27,8 +26,8 @@ def list_randomizer(keys_pool):
 def main():
     action_dict = {}
     size = int(input("Enter Size(0-100000): "))
-    load_factor = float(input("Enter Load Factor(0-1): "))
-    keys_pool = generate_random_keys(size*load_factor)
+    load_factor = float(input("Enter Load Factor(0-0.75): "))
+    keys_pool = generate_random_keys(size,load_factor)
     print("Generated Random Keys pool")
     action_dict["set"] = list(map(lambda x: (x, x*10+1), keys_pool))
     print("Generated Test cases for set")
