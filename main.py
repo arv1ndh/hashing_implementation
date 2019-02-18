@@ -26,9 +26,16 @@ def list_randomizer(keys_pool):
 def main():
     action_dict = {}
     size = int(input("Enter Size(0-100000): "))
-    load_factor = float(input("Enter Load Factor(0-0.75): "))
+    if size < 0  or size > 100000:
+        print("Invalid Size")
+        exit()
+    load_factor = float(input("Enter Load Factor(0-1.0): "))
+    if load_factor < 0.0 or load_factor > 1.0:
+        print("Invalid Load Factor")
+        exit()
     keys_pool = generate_random_keys(size,load_factor)
-    print("Generated Random Keys pool")
+    max_n = len(keys_pool)
+    print("Generated Random Keys pool of size: ", max_n)
     action_dict["set"] = list(map(lambda x: (x, x*10+1), keys_pool))
     print("Generated Test cases for set")
     action_dict["delete"] = list_randomizer(keys_pool)
@@ -56,6 +63,7 @@ def main():
                     failure += 1
             print("Time Elapsed: ", str((time.time()-start)*1000), "ms")
             print("Successes: ",success," Failures: ",failure)
+            print("Accuracy: ", round(success*100/max_n,2), "%") 
 
 if __name__ == "__main__":
     main()

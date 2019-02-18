@@ -25,7 +25,6 @@ class Hash_Table:
 
     def set(self, key, value):
         if self.n == self.N:
-            print("Hash Table is full, no more insertions allowed")
             return -1
         init_hash = self.hash(key)
         i = 1

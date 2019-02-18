@@ -13,26 +13,28 @@ class Hash_Table:
         index = init_hash
         count = 0
         while self.H[index] is not None and self.H[index][0] != key:
-            if count == self.n:
+            if count == self.N:
                 return -1
             index = (init_hash + i*i) % self.N
             i = i + 1
-            if type(self.H[index]) == int:
-                count += 1
+            count += 1
         if self.H[index] is None:
             return -1
         return index
 
     def set(self, key, value):
         if self.n == self.N:
-            print("Hash Table is full, no more insertions allowed")
             return -1
         init_hash = self.hash(key)
         i = 1
         index = init_hash
+        count = 0
         while self.H[index] is not None and type(self.H[index] == int) and self.H[index][0] != key:
+            if count == self.N:
+                return -1
             index = (init_hash + i + i*i) % self.N
             i = i + 1
+            count += 1
         self.H[index] = [key, value]
         self.n += 1
         return 0
