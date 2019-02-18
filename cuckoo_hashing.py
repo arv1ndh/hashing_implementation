@@ -11,20 +11,18 @@ class Hash_Table:
     def search(self, key):
         hashes = self.hash(key)
         if self.H[0][hashes[0]] is not None and self.H[0][hashes[0]][0] == key:
-            print("FOUND")
-            return self.H[0][hashes[0]][1]
+            return self.H[0][hashes[0]]#[1]
         elif self.H[1][hashes[1]] is not None and self.H[1][hashes[1]][0] == key:
-            return self.H[1][hashes[1]][1]
-        print("NOT FOUND")
+            return self.H[1][hashes[1]]#[1]
         return -1
 
     def set(self, key, value):
         hashes = self.hash(key)
         i = 0
-        #print(self.H[0][hashes[0]])
-        #import sys
-        #sys.exit()
+        count = 0
         while key is not None and value is not None:
+            if count >= self.N:
+                return -1
             if self.H[i][hashes[i]] is None:
                 self.H[i][hashes[i]] = [key, value]
                 key = None
@@ -33,15 +31,23 @@ class Hash_Table:
                 key,self.H[i][hashes[i]][0] = self.H[i][hashes[i]][0], key
                 value,self.H[i][hashes[i]][1] = self.H[i][hashes[i]][1], value
             i = 1 - i
+            count += 1
+        return 0
 
     def delete(self, key):
-        hashes = self.hash(key)
-        if self.H[0][hashes[0]] == key:
-            H1[hashes[0]] = None
-            return 0
-        if self.H[1][hashes[1]] == key:
-            H1[hashes[1]] = None
-            return 0
+        present = self.search(key)
+        if present == -1:
+            return -1
+        present = None
+        return 0
+        #hashes = self.hash(key)
+        #if self.H[0][hashes[0]] is not None and self.H[0][hashes[0]][0] == key:
+        #    self.H[0][hashes[0]] = None
+        #    return 0
+        #elif self.H[1][hashes[1]] is not None and self.H[1][hashes[1]][0] == key:
+        #if self.H[1][hashes[1]][0] == key:
+        #    self.H[1][hashes[1]] = None
+        #    return 0
         return -1
 
     def print_state(self):
@@ -57,18 +63,3 @@ class Hash_Table:
                 print(i, None)
                 continue
             print(i, self.H[1][i])
-
-def main():
-    hash_obj = Hash_Table(8)
-    hash_obj.set(4, 30)
-    hash_obj.set(1, 90)
-    hash_obj.set(2, 70)
-    hash_obj.print_state()
-    hash_obj.search(4)
-    hash_obj.search(29)
-    hash_obj.delete(3)
-    hash_obj.delete(4)
-    hash_obj.print_state()
-
-if __name__ == "__main__":
-    main()

@@ -3,14 +3,16 @@ import cuckoo_hashing
 import linear_hashing
 import quadratic_hashing
 import random
+import time
 
-HASH_TYPE = ["chained_hashing"]#, "cuckoo_hashing", "linear_hashing", "quadratic_hashing"]
-ACTION = ["set"]#, "search", "delete"]
+HASH_TYPE = ["cuckoo_hashing", "chained_hashing", "linear_hashing", "quadratic_hashing"]
+ACTION = ["set", "search", "delete"]
 
 def generate_random_keys(size):
     result_list = []
     i = 0
-    while i < size:
+    while i < size/2:
+        #print(i)
         number = random.randint(0, size * 100)
         if number not in result_list:
             result_list.append(number)
@@ -27,25 +29,33 @@ def main():
     size = int(input("Enter Size: "))
     keys_pool = generate_random_keys(size)
     print("Generated Random Keys pool")
-    action_dict["set"] = map(lambda x: (x, x*10), keys_pool)
-    print("Generate Test cases for set")
+    action_dict["set"] = list(map(lambda x: (x, x*10+1), keys_pool))
+    print("Generated Test cases for set")
     action_dict["delete"] = list_randomizer(keys_pool)
-    print("Generate Test cases for delete")
+    print("Generated Test cases for delete")
     action_dict["search"] = list_randomizer(keys_pool)
-    print("Generate Test cases for search")
+    print("Generated Test cases for search")
     for hash_table in HASH_TYPE:
         hash_obj = eval(hash_table).Hash_Table(size)
         print("Evaluating hash table of size " + str(size) + " using " + hash_table)
         for action in ACTION:
+            success = 0
+            failure = 0
             print("Action--> " + action)
             data = action_dict[action]
             action_obj = getattr(hash_obj, action)
-        for value in data:
-            if action == "set":
-                action_obj(value[0], value[1])
-            else:
-                action_obj(value)
-        hash_obj.print_state()
+            start = time.time()
+            for value in data:
+                if action == "set":
+                    ret = action_obj(value[0], value[1])
+                else:
+                    ret = action_obj(value)
+                if ret != -1:
+                    success += 1
+                else:
+                    failure += 1
+            print("Time Elapsed: ", str(time.time()-start))
+            print("Successes: ",success," Failures: ",failure)
 
 if __name__ == "__main__":
     main()

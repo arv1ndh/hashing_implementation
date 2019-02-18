@@ -7,15 +7,17 @@ class Hash_Table:
         return key % self.N
 
     def set(self, key, value):
-        present = self.search(key)
-        if present != -1:
-            collec = self.H[present[0]]
-            collec[present[1]] = (key, value)
-            return 0
         i = self.hash(key)
         if self.H[i] is None:
             self.H[i] = [(key, value)]
             return 0
+        links = self.H[i]
+        c_iter = 0
+        while c_iter < len(links):
+            if links[c_iter][0] == key:
+                links[c_iter] = (key, value)
+                return 0
+            c_iter += 1
         self.H[i].append((key, value))
         return 0
 
@@ -32,12 +34,10 @@ class Hash_Table:
     def delete(self, key):
         temp = self.search(key)
         if temp == -1:
-            print("Key is not present to be deleted")
             return -1
         index, col_index = temp
         collec = self.H[index]
         k, v = collec.pop(col_index)
-        print(k, " -- ", v, "Has been deleted")
         return 0
     
     def print_state(self):
@@ -51,24 +51,3 @@ class Hash_Table:
             for k,v in collec:
                 o_str += "==>{}:{}".format(k,v)
             print(o_str)
-
-def main():
-    hash_obj = Hash_Table(8)
-    hash_obj.set(4, 30)
-    hash_obj.set(1, 90)
-    hash_obj.set(2, 70)
-    hash_obj.set(9, 70)
-    hash_obj.print_state()
-    hash_obj.search(4)
-    hash_obj.search(29)
-    hash_obj.delete(3)
-    hash_obj.delete(4)
-    hash_obj.print_state()
-    hash_obj.set(4, 30)
-    hash_obj.set(12, 30)
-    hash_obj.set(4, 12)
-    hash_obj.print_state()
-
-
-if __name__ == "__main__":
-    main()

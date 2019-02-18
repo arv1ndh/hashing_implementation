@@ -14,16 +14,13 @@ class Hash_Table:
         count = 0
         while self.H[index] is not None and self.H[index][0] != key:
             if count == self.n:
-                print("Key not Found")
                 return -1
             index = (init_hash + i*i) % self.N
             i = i + 1
             if type(self.H[index]) == int:
                 count += 1
         if self.H[index] is None:
-            print("Key not Found")
             return -1
-        print("Key found")
         return index
 
     def set(self, key, value):
@@ -34,7 +31,7 @@ class Hash_Table:
         i = 1
         index = init_hash
         while self.H[index] is not None and type(self.H[index] == int) and self.H[index][0] != key:
-            index = (init_hash + i*i) % self.N
+            index = (init_hash + i + i*i) % self.N
             i = i + 1
         self.H[index] = [key, value]
         self.n += 1
@@ -43,10 +40,8 @@ class Hash_Table:
     def delete(self, key):
         index = self.search(key)
         if index == -1:
-            print("Key which is not present cannot be deleted")
             return -1
         k,v = self.H[index]
-        print(k," -- ",v," Has been deleted")
         self.H[index] = "D"
         self.n -= 1
         return 0
@@ -60,19 +55,3 @@ class Hash_Table:
                 print(i, "D")
             else:
                 print(i, self.H[i][0], self.H[i][1])
-
-
-def main():
-    hash_obj = Hash_Table(8)
-    hash_obj.set(4, 30)
-    hash_obj.set(1, 90)
-    hash_obj.set(2, 70)
-    hash_obj.print_state()
-    hash_obj.search(4)
-    hash_obj.search(29)
-    hash_obj.delete(3)
-    hash_obj.delete(4)
-    hash_obj.print_state()
-
-if __name__ == "__main__":
-    main()
