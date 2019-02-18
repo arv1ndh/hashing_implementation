@@ -11,7 +11,7 @@ ACTION = ["set", "search", "delete"]
 def generate_random_keys(size):
     result_list = []
     i = 0
-    while i < size/2:
+    while i < size:
         #print(i)
         number = random.randint(0, size * 100)
         if number not in result_list:
@@ -26,8 +26,9 @@ def list_randomizer(keys_pool):
 
 def main():
     action_dict = {}
-    size = int(input("Enter Size: "))
-    keys_pool = generate_random_keys(size)
+    size = int(input("Enter Size(0-100000): "))
+    load_factor = float(input("Enter Load Factor(0-1): "))
+    keys_pool = generate_random_keys(size*load_factor)
     print("Generated Random Keys pool")
     action_dict["set"] = list(map(lambda x: (x, x*10+1), keys_pool))
     print("Generated Test cases for set")
@@ -37,7 +38,7 @@ def main():
     print("Generated Test cases for search")
     for hash_table in HASH_TYPE:
         hash_obj = eval(hash_table).Hash_Table(size)
-        print("Evaluating hash table of size " + str(size) + " using " + hash_table)
+        print("Evaluating hash table of size: " + str(size) + " with max load factor: " + str(load_factor) + " using " + hash_table)
         for action in ACTION:
             success = 0
             failure = 0
@@ -54,7 +55,7 @@ def main():
                     success += 1
                 else:
                     failure += 1
-            print("Time Elapsed: ", str(time.time()-start))
+            print("Time Elapsed: ", str((time.time()-start)*1000), "ms")
             print("Successes: ",success," Failures: ",failure)
 
 if __name__ == "__main__":
